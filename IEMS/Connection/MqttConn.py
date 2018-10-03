@@ -7,7 +7,7 @@ class MqttConn(object):
     BROKER = "hnas.dnet.com.sg"
     PORT = 1883
     TOPIC = "iems/sg/lift/condition"
-    CLIENT_ID = "MQTT_Client"
+    CLIENT_ID = "lens_dblXiL0qkIW5o5NG2EtWbgqJZuw"
 
     def __init__(self):
         self.client = mqtt.Client()

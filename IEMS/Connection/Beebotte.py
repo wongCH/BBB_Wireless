@@ -1,8 +1,8 @@
 
 import time
 from time import sleep
-from beebotte import *
-from Helpers.Constant import *
+#from beebotte import *
+#from Helpers.Constant import *
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish 
 
@@ -13,7 +13,7 @@ class Beebotte:
     BROKER  = "mqtt.beebotte.com"
     TOKEN   = "token_WUj0OVDO4XZayZZw"
     CHANNEL = "IEMS"
-    bclient = BBT('R7RlQ7zqfbg2zmFRmThAzBew','VFrNrFY3HXpIAJ81DQuusdRVApDAa8cp')
+    #bclient = BBT('R7RlQ7zqfbg2zmFRmThAzBew','VFrNrFY3HXpIAJ81DQuusdRVApDAa8cp')
     
 
     def __init__(self):
