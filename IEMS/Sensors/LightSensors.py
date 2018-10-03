@@ -3,6 +3,7 @@ from Sensors.BaseSensor import *
 import datetime
 import binascii
 
+import time
 import ctypes
 #readResult = []
 #sensorConfig = { "interface":None,"bitSize": None,"i2c": None}
@@ -20,19 +21,19 @@ class LightSensors(BaseSensor):
 
     def __init__(self, deviceAddr=0x47, busNum=2,interface=None, bitSize=10):
        super().__init__(deviceAddr,busNum,interface,bitSize)
-       Device = I2C.Device(address=0x47,busnum=2)
-       Device.writeList(0x01,bytearray(b'\xc4\x10'))  #configure the mode (refer to datasheet configuration table)
+       self.device = I2C.Device(address=0x47,busnum=2)
+       self.device.writeList(0x01,bytearray(b'\xc4\x10'))  #configure the mode (refer to datasheet configuration table)
         #0x01 - config adr
         #0xc4 - full scale, 100ms conv. time, contiue measuring
         #0x10 - latch
-       
+       time.sleep(0.1)#wait for 100ml for the sensor to take place
 
     def getSensors(self):
-        device = I2C.get_i2c_device(0x47,2)#get the i2c address on busNo2
-        rawValue = device.readList(0x00,2) #return as 2bytes
+        #device = I2C.get_i2c_device(0x47,2)#get the i2c address on busNo2
+        rawValue = self.device.readList(0x00,2) #return as 2bytes
         iData = (rawValue[0] << 8) | rawValue[1];
         luxResult = self.convertToLux(iData)
-        #print("Lux:{0}".format(luxResult))
+        print("Lux:{0}".format(luxResult))
         return luxResult
 
     def convertToLux(self,rawValue):

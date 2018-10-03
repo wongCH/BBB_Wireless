@@ -40,20 +40,19 @@ class Beebotte:
          #print ("send time:{0}".format(time))
 
     def publish(self,sectime,light,temp,humidity,preasure,gyro_x,gyro_y,gyro_z,acc_x,acc_y,acc_z):
-    
-        msgs = [
-             {"resource":"light","data":light, "ts":sectime ,"write": True},
-             {"resource":"temperature","data":temp, "ts":sectime,"write": True },
-             {"resource":"humidity","data":humidity,"ts":sectime,"write": True },
-             {"resource":"pressure","data":preasure,"ts":sectime,"write": True },
-             {"resource":"gyro_x","data":gyro_x,"ts":sectime,"write": True } ,
-             {"resource":"gyro_y","data":gyro_y,"ts":sectime,"write": True } ,
-             {"resource":"gyro_z","data":gyro_z,"ts":sectime,"write": True } ,
-             {"resource":"acc_x","data":acc_x,"ts":sectime,"write": True } ,
-             {"resource":"acc_y","data":acc_y,"ts":sectime,"write": True } ,
-             {"resource":"acc_z","data":acc_z,"ts":sectime,"write": True } 
-        ] 
-        self.client.publish("IEMS/all_sensors", json.dumps(msgs))
+            self.client.publish("IEMS/light", light, 1)
+            self.client.publish("IEMS/temperature", temp, 1)
+            self.client.publish("IEMS/humidity", humidity, 1)
+            self.client.publish("IEMS/pressure", preasure, 1)
+            self.client.publish("IEMS/gyro_x", gyro_x, 1)
+            self.client.publish("IEMS/gyro_y", gyro_y, 1)
+            self.client.publish("IEMS/gyro_z", gyro_z, 1)
+            self.client.publish("IEMS/acc_x", acc_x, 1)
+            self.client.publish("IEMS/acc_y", acc_y, 1)
+            self.client.publish("IEMS/acc_z", acc_z, 1)
+            
+        
+         
         
         #for sensor in self.objinterface['data']:
                     

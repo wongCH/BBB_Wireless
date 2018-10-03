@@ -28,6 +28,6 @@ class EnvironmentalSensor(BaseSensor):
 
     def getSensors(self):
         t, p, h = self.bme.get_data()
-        print ("Temperature:{0}, Pressure:{1}, Humidity;{2}".format(t,p,h))
+        #print ("Temperature:{0}, Pressure:{1}, Humidity;{2}".format(t,p,h))
         return  {"temp":t,"humi":h, "pres":p}
         

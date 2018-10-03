@@ -90,12 +90,7 @@ class IMUSensor(BaseSensor):
       acc_y = (acc_y*9.8 ) / (0x8000/2) # When the range is ± 2g, the conversion formula for conversion to g / s is 
       acc_z = (acc_z*9.8 ) / (0x8000/2) # When the range is ± 2g, the conversion formula for conversion to g / s is 
       
-      print("Gyro X: {0} | Y: {1} | Z: {2} :".format(gyro_x,gyro_y,gyro_z))
-      print("Accel X: {0} | Y: {1} | Z: {2} :".format(acc_x,acc_y,acc_z))
+      #print("Gyro X: {0} | Y: {1} | Z: {2} :".format(gyro_x,gyro_y,gyro_z))
+      #print("Accel X: {0} | Y: {1} | Z: {2} :".format(acc_x,acc_y,acc_z))
       return {"gyro_x":gyro_x, "gyro_y":gyro_y,"gyro_z":gyro_z,"acc_x":acc_x,"acc_y":acc_y,"acc_z":acc_z}
 
-
-      def check(axisValue):
-          if(axisValue >0x7FFF):
-              return -(0xFFF-axisValue)
-          return axisValue

@@ -13,22 +13,21 @@ import threading
 import time
 import datetime
 import logging
-
+from Helpers.Constant import *
 from Sensors.IMUSensor import *
 from Sensors.EnvironmentalSensor import *
 from Sensors.LightSensors import *
-
-#from Connection.Beebotte import *   
-from Connection.MqttConn import *
+from Connection.Beebotte import *   
+#from Connection.MqttConn import *
 
 liSnr = LightSensors()
 imuSnr   = IMUSensor()
 envSnr  = EnvironmentalSensor()
 
 
-#sendToSrv = Beebotte()
-sendToSrv = MqttConn()
-while 1:
+sendToSrv = Beebotte()
+#sendToSrv = MqttConn()
+while Constant.SENSOR_WORKING:
  unixTime =  int(time.time() * 1000)
  liData = liSnr.getSensors()
  imuData = imuSnr.getSensors()
