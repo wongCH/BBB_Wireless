@@ -1,3 +1,6 @@
+"""
+Code that work with BME280: Environmental Sensors
+"""
 import time
 
 import smbus # pylint: disable=import-error
@@ -143,7 +146,7 @@ class BME280(object):
         t = self.calc_compensated_temperature(t_fine)
         p = self.calc_compensated_pressure(t_fine, pressure_raw)
         h = self.calc_compensated_humidity(t_fine, humidity_raw)
-
+       
         if self.get_mode() == MODE_FORCED:
             # chip returns to sleep after data readout automatically, mirror it
             self.mode = MODE_SLEEP

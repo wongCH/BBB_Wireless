@@ -24,13 +24,10 @@ class EnvironmentalSensor(BaseSensor):
     
     def __init__(self):
         super().__init__( self.__BMP280_ADDRESS, self.__BBB_BUSNO, None, self.__BMP280_BITSIZE)
-        self.getSensors()
+        self.bme = BME280()
 
     def getSensors(self):
-        device = I2C.get_i2c_device(0x77,2)
-        bme = BME280()
-        t, p, h = bme.get_data()
-        print ("Temperature: %f °C" % t)
-        print ("Pressure: %f P" % p)
-        print ("Humidity: %f %%" % h)
+        t, p, h = self.bme.get_data()
+        print ("Temperature:{0}, Pressure:{1}, Humidity;{2}".format(t,p,h))
+        return  {"temp":t,"humi":h, "pres":p}
         

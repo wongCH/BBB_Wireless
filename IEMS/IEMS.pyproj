@@ -24,6 +24,18 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Connection\Beebotte.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Connection\Bluetooth.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Connection\MqttConn.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Connection\__init__.py" />
+    <Compile Include="Helpers\Constant.py" />
+    <Compile Include="Helpers\__init__.py" />
     <Compile Include="Main.py" />
     <Compile Include="Sensors\BaseSensor.py" />
     <Compile Include="Sensors\BME280.py">
@@ -42,11 +54,7 @@
     <Compile Include="Test\__init__.py" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Util.py">
-      <SubType>Code</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
+    <Folder Include="Connection\" />
     <Folder Include="Helpers\" />
     <Folder Include="Test\" />
     <Folder Include="Sensors\" />

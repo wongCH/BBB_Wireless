@@ -31,7 +31,9 @@ class LightSensors(BaseSensor):
         device = I2C.get_i2c_device(0x47,2)#get the i2c address on busNo2
         rawValue = device.readList(0x00,2) #return as 2bytes
         iData = (rawValue[0] << 8) | rawValue[1];
-        print("Lux:{0}".format(self.convertToLux(iData)))
+        luxResult = self.convertToLux(iData)
+        #print("Lux:{0}".format(luxResult))
+        return luxResult
 
     def convertToLux(self,rawValue):
         iMantissa = rawValue & 0x0FFF;                 # Extract Mantissa
