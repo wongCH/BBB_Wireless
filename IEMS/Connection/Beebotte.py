@@ -1,14 +1,12 @@
 
-
 import time
 from time import sleep
 from beebotte import *
 from Helpers.Constant import *
-
 import paho.mqtt.client as mqtt
+import paho.mqtt.publish as publish 
 
-
-
+import json
 class Beebotte:
     """description of class"""
     PORT    = 1883
@@ -20,6 +18,7 @@ class Beebotte:
 
     def __init__(self):
         self.client = mqtt.Client()
+        
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
         self.client.username_pw_set("token:{0}".format(self.TOKEN))
@@ -28,34 +27,34 @@ class Beebotte:
                                                         #rate at which the client will send ping messages to the broker.
         self.client.loop_start()
 
-    def on_connect(client, data, rc):
+    def on_connect(self,client, data, rc):
        self.client.subscribe("IEMS/light", 1) #QoS=1
        print(rc)#get server status
 
-    def on_message(client, data, msg):
+    def on_message(self,client, data, msg):
         print(msg.topic + " " + str(msg.payload))
         
     def testPublish(self):
-         self.client.publish("IEMS/light", 111, 1)
+         self.client.publish("IEMS/light", 60, 1)
+        
          #print ("send time:{0}".format(time))
 
     def publish(self,sectime,light,temp,humidity,preasure,gyro_x,gyro_y,gyro_z,acc_x,acc_y,acc_z):
-         self.client.publish("IEMS/light", "10", 1)
-         print ("send time:{0}".format(sectime))
-         self.bclient.writeBulk('IEMS', [
-             {"resource":"light","data":light, "ts":sectime },
-             {"resource":"temperature","data":temp, "ts":sectime },
-             {"resource":"humidity","data":humidity,"ts":sectime },
-             {"resource":"pressure","data":preasure,"ts":sectime },
-             {"resource":"gyro_x","data":gyro_x,"ts":sectime } ,
-             {"resource":"gyro_y","data":gyro_y,"ts":sectime } ,
-             {"resource":"gyro_z","data":gyro_z,"ts":sectime } ,
-             {"resource":"acc_x","data":acc_x,"ts":sectime } ,
-             {"resource":"acc_y","data":acc_y,"ts":sectime } ,
-             {"resource":"acc_z","data":acc_z,"ts":sectime } 
-        ])
-       
-       
+    
+        msgs = [
+             {"resource":"light","data":light, "ts":sectime ,"write": True},
+             {"resource":"temperature","data":temp, "ts":sectime,"write": True },
+             {"resource":"humidity","data":humidity,"ts":sectime,"write": True },
+             {"resource":"pressure","data":preasure,"ts":sectime,"write": True },
+             {"resource":"gyro_x","data":gyro_x,"ts":sectime,"write": True } ,
+             {"resource":"gyro_y","data":gyro_y,"ts":sectime,"write": True } ,
+             {"resource":"gyro_z","data":gyro_z,"ts":sectime,"write": True } ,
+             {"resource":"acc_x","data":acc_x,"ts":sectime,"write": True } ,
+             {"resource":"acc_y","data":acc_y,"ts":sectime,"write": True } ,
+             {"resource":"acc_z","data":acc_z,"ts":sectime,"write": True } 
+        ] 
+        self.client.publish("IEMS/all_sensors", json.dumps(msgs))
+        
         #for sensor in self.objinterface['data']:
                     
            
