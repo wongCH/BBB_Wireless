@@ -12,37 +12,7 @@ import threading
 
 class Bluetooth:
 
-    def Execute(self,liSnr):
-        service_uuid = "00001101-0000-1000-8000-00805F9B34FB"
-        server_sock = BluetoothSocket(RFCOMM)
-        server_sock.bind(("", PORT_ANY))
-        server_sock.listen(1)
-
-        port = server_sock.getsockname()[1]
-
-        advertise_service(server_sock, "PerkyBlue", service_id = service_uuid, service_classes = [service_uuid, SERIAL_PORT_CLASS], profiles = [SERIAL_PORT_PROFILE])
-
-        print("awaiting RFCOMM connection on channel:%d" % port)
-
-        client_sock, client_info = server_sock.accept()
-        print("accepted connection from:", client_info)
-
-        try:
-            while True:
-                #data = client_sock.recv(1024).strip()
-                
-                while True:
-                    client_sock.sendall("Lux:"+ str(liSnr.getSensors())+"\n")
-                    time.sleep(2)
-
-        except IOError:
-            pass
-
-        print("disconnected")
-
-        #client_sock.close()
-        #server_sock.close()
-        print("all done")
+   
     def Main(self,liSnr,imuSnr,envSnr):
         service_uuid = "00001101-0000-1000-8000-00805F9B34FB"
         server_socket=BluetoothSocket(RFCOMM)
