@@ -45,10 +45,16 @@
     <Compile Include="Sensors\IMUSensor.py" />
     <Compile Include="Sensors\LightSensors.py" />
     <Compile Include="Sensors\__init__.py" />
+    <Compile Include="Test\BluetoothBLPi.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\BMI160.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\BMM150.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\PBlue.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test\__init__.py" />
