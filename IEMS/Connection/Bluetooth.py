@@ -1,42 +1,31 @@
-# Uses Bluez for Linux
-#
-# sudo apt-get install bluez python-bluez
-# 
-# Taken from: https://people.csail.mit.edu/albert/bluez-intro/x232.html
-# Taken from: https://people.csail.mit.edu/albert/bluez-intro/c212.html
+import socket
 
-import bluetooth
+serverMACAddress = '80:30:DC:F4:3A:E6'
+port = 3
+s = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
+s.connect((serverMACAddress,port))
+while 1:
+    text = input()
+    if text == "quit":
+        break
+    s.send(bytes(text, 'UTF-8'))
+s.close()
 
-def receiveMessages():
-  server_sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
-  
-  port = 1
-  server_sock.bind(("",port))
-  server_sock.listen(1)
-  
-  client_sock,address = server_sock.accept()
-  print ( "Accepted connection from " + str(address))
-  
-  data = client_sock.recv(1024)
-  print  ("received [%s]" % data)
-  
-  client_sock.close()
-  server_sock.close()
-  
-def sendMessageTo(targetBluetoothMacAddress):
-  port = 1
-  sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
-  sock.connect((targetBluetoothMacAddress, port))
-  sock.send("hello dsdada!!")
-  sock.close()
-  
-def lookUpNearbyBluetoothDevices():
-  nearby_devices = bluetooth.discover_devices()
-  for bdaddr in nearby_devices:
-    print (str(bluetooth.lookup_name( bdaddr )) + " [" + str(bdaddr) + "]")
-    
-    
-lookUpNearbyBluetoothDevices()
-#receiveMessages()
-#sendMessageTo("F0:98:9D:9A:5C:52")
-receiveMessages()
+hostMACAddress = '80:30:DC:F4:3A:E6' # The MAC address of a Bluetooth adapter on the server. The server might have multiple Bluetooth adapters.
+port = 3 # 3 is an arbitrary choice. However, it must match the port used by the client.
+backlog = 1
+size = 1024
+s = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
+s.bind((hostMACAddress,port))
+s.listen(backlog)
+try:
+    client, address = s.accept()
+    while 1:
+        data = client.recv(size)
+        if data:
+            print(data)
+            client.send(data)
+except:	
+    print("Closing socket")	
+    client.close()
+    s.close()
