@@ -51,12 +51,7 @@ class Beebotte:
             self.client.publish("IEMS/acc_y", acc_y, 1)
             self.client.publish("IEMS/acc_z", acc_z, 1)
             
-        
          
-        
-        #for sensor in self.objinterface['data']:
-                    
-           
            
 """
 Data records to be published to the given channel. it Must respect the following format: 
