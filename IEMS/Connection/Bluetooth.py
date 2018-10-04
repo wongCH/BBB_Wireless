@@ -1,68 +1,78 @@
-#!/usr/bin/python3
+#! /usr/bin/python
 #
 # Title:perky_blue.py
 # Description:
 # Development Environment:OS X 10.9.3/Python 2.7.7
 # Author:G.S. Cole (guycole at gmail dot com)
 #
- 
-
-from Sensors.LightSensors import *
 from bluetooth import *
-from Helpers.Constant import *
-import threading  
+import time
+import threading
+
+
 class Bluetooth:
 
-   
-    def Start(self,liSnr):
-    	
-        self.service_uuid = "00001101-0000-1000-8000-00805F9B34FB"
-        self.server_sock = BluetoothSocket(RFCOMM)
-        self.server_sock.bind(("", PORT_ANY))
-        self.server_sock.listen(1)
-        port = self.server_sock.getsockname()[1]
-        advertise_service(self.server_sock, "PerkyBlue", service_id = self.service_uuid, service_classes = [self.service_uuid, SERIAL_PORT_CLASS], profiles = [SERIAL_PORT_PROFILE])
-        print("awaiting RFCOMM connection on channel:%d" % port)
-        
-       
-        while True:
-            self.client_sock, self.client_info = self.server_sock.accept()
-            Constant.IS_BLUETOOTH_CONNECTED = True
-            print("Accepted connection from:", self.client_info)
+    def Execute(self,liSnr):
+        service_uuid = "00001101-0000-1000-8000-00805F9B34FB"
+        server_sock = BluetoothSocket(RFCOMM)
+        server_sock.bind(("", PORT_ANY))
+        server_sock.listen(1)
 
-            t = threading.Thread(target=self.ServeSocket,args=(self.server_sock,self.client_info[0], liSnr))
-            t.setDaemon(True)
-            print("Starting the thread")
-            #Start thread
-            t.start();
-           
-            
-    def ServeSocket(self,sock,info, liSnr):
+        port = server_sock.getsockname()[1]
+
+        advertise_service(server_sock, "PerkyBlue", service_id = service_uuid, service_classes = [service_uuid, SERIAL_PORT_CLASS], profiles = [SERIAL_PORT_PROFILE])
+
+        print("awaiting RFCOMM connection on channel:%d" % port)
+
+        client_sock, client_info = server_sock.accept()
+        print("accepted connection from:", client_info)
+
         try:
             while True:
-            #Receive 1024 bytes, then decode in UTF-8 (Chinese) 
-            #automatically block thread (API) if there is no information to receive
-                print("inside thread")
-                receive = sock.recv(1024).decode('utf-8')
-            # Print what you just received (info=address)
-                message =liSnr.getSensors()
-                print (message)
-               # print('['+str(info)+']'+liSnr.getSensors())
-            #add a new line
-                receive=receive+"\n"
-            #Return data to the sender
-              
-                #sock.send(str(message));
-                sock.send(receive.encode('utf-8'));
-        except IOError:
-             pass
-        print("Disconnected")
-        self.client_sock.close()
-        self.server_sock.close()
-        Constant.IS_BLUETOOTH_CONNECTED = False
-      
-    global g_message
+                #data = client_sock.recv(1024).strip()
+                
+                while True:
+                    client_sock.sendall("Lux:"+ str(liSnr.getSensors())+"\n")
+                    time.sleep(2)
 
-    def SendMessageTo(self,message):
-        g_message = message
- 
+        except IOError:
+            pass
+
+        print("disconnected")
+
+        #client_sock.close()
+        #server_sock.close()
+        print("all done")
+    def Main(self,liSnr,imuSnr,envSnr):
+        service_uuid = "00001101-0000-1000-8000-00805F9B34FB"
+        server_socket=BluetoothSocket(RFCOMM)
+        server_socket.bind(("",1))
+        server_socket.listen(1)
+        advertise_service(server_socket, "IEMSBlue", service_id = service_uuid, service_classes = [service_uuid, SERIAL_PORT_CLASS], profiles = [SERIAL_PORT_PROFILE])
+
+        while True:
+            sock,info=server_socket.accept()
+            print(str(info[0])+'Connected!')
+            t=threading.Thread(target=self.serveSocket,args=(sock,liSnr,envSnr,))
+            t.setDaemon(True)
+            t.start()
+    server_socket=None
+    def serveSocket(self,sock,liSnr,envSnr):
+      
+        try:
+           
+            while True:
+                envData =envSnr.getSensors()
+                strSend="Lux:{0},Temp:{1}".format(str(liSnr.getSensors()),envData['temp'])
+                sock.sendall(strSend+"\n")
+                time.sleep(0.2)
+        except Exception as e:
+             pass
+             print ("erorr:" + e.message )
+      
+        finally:
+             sock.close()
+             
+        print("close connection")
+        
+        
