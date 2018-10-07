@@ -34,6 +34,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Connection\__init__.py" />
+    <Compile Include="Helpers\Compress.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helpers\ThMgr.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Helpers\Constant.py" />
     <Compile Include="Helpers\__init__.py" />
     <Compile Include="Main.py" />
@@ -44,7 +50,13 @@
     <Compile Include="Sensors\EnvironmentalSensor.py" />
     <Compile Include="Sensors\IMUSensor.py" />
     <Compile Include="Sensors\LightSensors.py" />
+    <Compile Include="Sensors\SensorMgr.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Sensors\__init__.py" />
+    <Compile Include="Server\Main.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\BluetoothBLPi.py">
       <SubType>Code</SubType>
     </Compile>
@@ -62,6 +74,7 @@
   <ItemGroup>
     <Folder Include="Connection\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Server\" />
     <Folder Include="Test\" />
     <Folder Include="Sensors\" />
   </ItemGroup>
