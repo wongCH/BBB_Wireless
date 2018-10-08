@@ -37,6 +37,7 @@
     <Compile Include="Helpers\Compress.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helpers\Logging.py" />
     <Compile Include="Helpers\ThMgr.py">
       <SubType>Code</SubType>
     </Compile>

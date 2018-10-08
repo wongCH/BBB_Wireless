@@ -28,7 +28,7 @@ class Beebotte:
         self.client.loop_start()
 
     def on_connect(self,client, data, rc):
-       self.client.subscribe("IEMS/light", 1) #QoS=1
+       #self.client.subscribe("IEMS/light", 1) #QoS=1
        print(rc)#get server status
 
     def on_message(self,client, data, msg):

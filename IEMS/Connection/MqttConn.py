@@ -1,28 +1,35 @@
 import paho.mqtt.client  as mqtt
 from  Helpers.Constant import *
 import json
+
 class MqttConn(object):
     """description of class"""
     CLIENT_ID = "lens_dblXiL0qkIW5o5NG2EtWbgqJZuw"
     def __init__(self):
         self.client = mqtt.Client()
-        self.client.on_connect = self.on_connect
-        self.client.on_message = self.on_message
-        self.client._client_id = self.CLIENT_ID
-        self.client.connect(Constant.MQTT_BROKER, Constant.MQTT_PORT, 120)
-        self.client.loop_start()
+        #self.username_pw_set()
+        try:
+            
+            self.client.on_connect = self.on_connect
+            self.client.on_message = self.on_message
+            self.client._client_id = self.CLIENT_ID
+            self.client.connect(Constant.MQTT_BROKER, Constant.MQTT_PORT, 120)
+            self.client.loop_start()
+        except: 
+            print("MQTT Server connection fail")
 
     def on_connect(self,client, data, rc):
-       self.client.subscribe(Constant.MQTT_TOPIC, Constant.MQTT_QOS) 
-       print(rc)#get server status
+       print("Connected to MQTT Broker:" + Constant.MQTT_BROKER)
 
     def on_message(self,client, data, msg):
         print(msg.topic + " " + str(msg.payload))
         
 
-    def publish(self,sectime,light,temp,humidity,preasure,gyro_x,gyro_y,gyro_z,acc_x,acc_y,acc_z):
-      
-        self.client.publish(topic=self.TOPIC,payload="Hello from Wong", qos=Constant.MQTT_QOS)
+    def publish(self,strMessage):
+        """
+        send your json data 
+        """
+        self.client.publish(topic=Constant.MQTT_TOPI,payload="Hello from Wong", qos=Constant.MQTT_QOS)
         print ("send time:{0}".format(sectime))
 
   
