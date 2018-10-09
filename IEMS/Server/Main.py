@@ -23,8 +23,7 @@ mappings = {
                 'gyr.x': {'type': 'integer'},
                 'gyr.y': {'type': 'integer'},
                 'gyr.z': {'type': 'integer'}
-                
-            }
+               }
         }
     }
 body = {'mappings': mappings}
