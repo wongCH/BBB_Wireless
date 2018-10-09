@@ -2,6 +2,8 @@ from Sensors.IMUSensor import *
 from Sensors.EnvironmentalSensor import *
 from Sensors.LightSensors import *
 from Helpers.Constant import *
+import json
+import pprint
 class SensorMgr(object):
     """Manager class in charge of calling all the Sensors"""
 
@@ -11,22 +13,42 @@ class SensorMgr(object):
         self.envSnr  = EnvironmentalSensor()
 
     def Main(self,loggingMgr):
+         objJson =  Constant.INTERFACE_JSON
+         ojbchild = Constant.INTEFACE_CHILD
          while Constant.SENSOR_WORKING:
             try:
-                print(Constant.SENSOR_WORKING)
-                unixTime = Constant.CURRENT_TIME
                 liData   = self.liSnr.getSensors()
                 imuData  = self.imuSnr.getSensors()
                 envData  = self.envSnr.getSensors()
-            
+                unixTime = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+                
+                
                 #print (envData)
                 #print(imuData)
                 #print(liData )
                 #cannot return, the whole thing will be terminated if return
+                #objJson["data"]
 
-                #return (liData,envData['temp'],envData['humi'],envData['pres'],imuData['gyro_x'], imuData['gyro_y'],imuData['gyro_z'],imuData['acc_x'],imuData['acc_y'],imuData['acc_z'])
-                time.sleep(Constant.SNR_SLEEP3)
-            except:
-                print ("error at sensor")
+                
+                ojbchild["dateTime"] =unixTime
+                ojbchild["lux"] =liData
+                ojbchild["tem"] =envData['temp']
+                ojbchild["hum"] = envData['humi']
+                ojbchild["pre"] =envData['pres']
+               
+                ojbchild["gyr"]['x'] = imuData['gyro_x']
+                ojbchild["gyr"]['y'] = imuData['gyro_y']
+                ojbchild["gyr"]['z'] = imuData['gyro_z']
+                ojbchild["acc"]['x'] = imuData['acc_x']
+                ojbchild["acc"]['y'] = imuData['acc_y']
+                ojbchild["acc"]['z'] =imuData['acc_z']
+                
+                objJson["data"].append(ojbchild)
+            
+                loggingMgr.Save( json.dumps(objJson, separators=(',',': ')))
+                print (json.dumps(objJson))
+                
+            except Exception  as e:
+                print ("Error at sensor:" + str(e))
 
-
+            time.sleep(Constant.SNR_SLEEP)

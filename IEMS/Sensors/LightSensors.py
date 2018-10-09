@@ -33,7 +33,7 @@ class LightSensors(BaseSensor):
         rawValue = self.device.readList(0x00,2) #return as 2bytes
         iData = (rawValue[0] << 8) | rawValue[1];
         luxResult = self.convertToLux(iData)
-        print("Lux:{0}".format(luxResult))
+        #print("Lux:{0}".format(luxResult))
         return luxResult
 
     def convertToLux(self,rawValue):

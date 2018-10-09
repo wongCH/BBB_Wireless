@@ -5,6 +5,7 @@ import sys
 from Helpers.Constant import *
 from datetime import datetime
 from pathlib import Path
+
 class Logging(object):
     """ Logging and appending data to log file
 
@@ -20,6 +21,8 @@ class Logging(object):
     """  
   
     def Save(self,content):
+        
+
         if not os.path.exists(os.path.dirname(Constant.FILE_STORE_NAME)):
             try:
                 os.makedirs(os.path.dirname(Constant.FILE_STORE_NAME))
@@ -28,4 +31,4 @@ class Logging(object):
                     raise
         with open(Constant.FILE_STORE_NAME, "a") as f:
             f.write(content)
-     
+            f.writelines("\n")

@@ -15,16 +15,16 @@ import threading
 from Helpers.Constant import *
 from Sensors.SensorMgr import *
 from Helpers.Logging import *
-
+from Connection.MqttConn import *
 
 saveFile = Logging()
-#saveFile.Save()
 
-"""
+
+ 
 sensorMgr = SensorMgr()
-t = threading.Thread(target=sensorMgr.Main, args=(saveFile))
+t = threading.Thread(target=sensorMgr.Main, args=(saveFile,))
 t.start()
-"""
+ 
  
 
 """r

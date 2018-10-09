@@ -1,5 +1,6 @@
 import time
 from datetime import datetime
+import json
 class Constant:
     """
     All the Global variable are stored here for sharing with other classes
@@ -8,7 +9,7 @@ class Constant:
     IS_BLUETOOTH_CONNECTED = False
 
     #Sensor Sleep time
-    SNR_SLEEP = 2
+    SNR_SLEEP =0.002
     
     #current millisecond
     CURRENT_TIME =   int(time.time() * 1000)
@@ -23,3 +24,8 @@ class Constant:
     #file path for storing sensor data
     FILE_STORE_NAME= "/home/debian/pythonapp/Logs/sensorData_" + datetime.utcnow().strftime('%Y-%m-%d')+'.json'
     
+    #json format for interface return json object
+    INTERFACE_JSON = {"deviceId":"len_123456",
+                      "data":[]
+                      }
+    INTEFACE_CHILD ={"dateTime":None,"lux":0,"tem":0,"hum":0,"pre":0,"gyr": {"x":0,"y":0,"z":0},"acc":{"x":0,"y":0,"z":0}}
