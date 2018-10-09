@@ -10,26 +10,26 @@ class MqttConn(object):
         #self.username_pw_set()
         try:
             
-            self.client.on_connect = self.on_connect
-            self.client.on_message = self.on_message
+            self.client.on_connect = self.OnConnect
+            self.client.on_message = self.OnMessage
             self.client._client_id = self.CLIENT_ID
             self.client.connect(Constant.MQTT_BROKER, Constant.MQTT_PORT, 120)
             self.client.loop_start()
         except: 
             print("MQTT Server connection fail")
 
-    def on_connect(self,client, data, rc):
+    def OnConnect(self,client, data, rc):
        print("Connected to MQTT Broker:" + Constant.MQTT_BROKER)
 
-    def on_message(self,client, data, msg):
+    def OnMessage(self,client, data, msg):
         print(msg.topic + " " + str(msg.payload))
         
 
-    def publish(self,strMessage):
+    def Send(self,strMessage):
         """
         send your json data 
         """
-        self.client.publish(topic=Constant.MQTT_TOPI,payload="Hello from Wong", qos=Constant.MQTT_QOS)
-        print ("send time:{0}".format(sectime))
+        self.client.publish(topic=Constant.MQTT_TOPIC,payload=strMessage, qos=Constant.MQTT_QOS)
+        
 
   

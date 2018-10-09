@@ -18,11 +18,11 @@ from Helpers.Logging import *
 from Connection.MqttConn import *
 
 saveFile = Logging()
-
+mqttServer = MqttConn()
 
  
 sensorMgr = SensorMgr()
-t = threading.Thread(target=sensorMgr.Main, args=(saveFile,))
+t = threading.Thread(target=sensorMgr.Main, args=(saveFile,mqttServer,))
 t.start()
  
  

@@ -9,11 +9,11 @@ class Constant:
     IS_BLUETOOTH_CONNECTED = False
 
     #Sensor Sleep time
-    SNR_SLEEP =0.002
+    SNR_SLEEP = 2
     
     #current millisecond
     CURRENT_TIME =   int(time.time() * 1000)
-    STR_CURRENT_DATE_TIME =  datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+     
 
     #for MQTT
     MQTT_BROKER = "iot.eclipse.org"

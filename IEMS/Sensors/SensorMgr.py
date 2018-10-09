@@ -12,7 +12,7 @@ class SensorMgr(object):
         self.imuSnr  = IMUSensor()
         self.envSnr  = EnvironmentalSensor()
 
-    def Main(self,loggingMgr):
+    def Main(self,loggingMgr,mqttServer):
          objJson =  Constant.INTERFACE_JSON
          ojbchild = Constant.INTEFACE_CHILD
          while Constant.SENSOR_WORKING:
@@ -44,9 +44,11 @@ class SensorMgr(object):
                 ojbchild["acc"]['z'] =imuData['acc_z']
                 
                 objJson["data"].append(ojbchild)
-            
-                loggingMgr.Save( json.dumps(objJson, separators=(',',': ')))
-                print (json.dumps(objJson))
+                
+                strJson = json.dumps(objJson, separators=(',',': '))
+                mqttServer.Send(strJson)
+                #loggingMgr.Save(strJson)
+                print (strJson)
                 
             except Exception  as e:
                 print ("Error at sensor:" + str(e))
