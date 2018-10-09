@@ -20,7 +20,7 @@ class SensorMgr(object):
                 liData   = self.liSnr.getSensors()
                 imuData  = self.imuSnr.getSensors()
                 envData  = self.envSnr.getSensors()
-                unixTime = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+               
                 
                 
                 #print (envData)
@@ -30,7 +30,7 @@ class SensorMgr(object):
                 #objJson["data"]
 
                 
-                ojbchild["dateTime"] =unixTime
+                ojbchild["created"] = int(time.time() * 1000)
                 ojbchild["lux"] =liData
                 ojbchild["tem"] =envData['temp']
                 ojbchild["hum"] = envData['humi']
@@ -43,13 +43,16 @@ class SensorMgr(object):
                 ojbchild["acc"]['y'] = imuData['acc_y']
                 ojbchild["acc"]['z'] =imuData['acc_z']
                 
+                #mqtt cannot append, need to send immediately
+                mqttServer.Send(json.dumps(ojbchild, separators=(',',': ')))
+
                 objJson["data"].append(ojbchild)
-                
                 strJson = json.dumps(objJson, separators=(',',': '))
-                mqttServer.Send(strJson)
-                #loggingMgr.Save(strJson)
-                print (strJson)
+                loggingMgr.Save(strJson)
                 
+              
+                
+                print (strJson)                
             except Exception  as e:
                 print ("Error at sensor:" + str(e))
 
