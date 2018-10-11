@@ -20,7 +20,7 @@ class Logging(object):
     "w" - Write - will create a file if the specified file does not exist
     """  
   
-    def Save(self,content):
+    def Save(self,strContent):
         
 
         if not os.path.exists(os.path.dirname(Constant.FILE_STORE_NAME)):
@@ -30,5 +30,5 @@ class Logging(object):
                 if exc.errno != errno.EEXIST:
                     raise
         with open(Constant.FILE_STORE_NAME, "a") as f:
-            f.write(content)
+            f.write(strContent)
             f.writelines("\n")

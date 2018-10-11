@@ -4,7 +4,7 @@ import json
 
 class MqttConn(object):
     """description of class"""
-    CLIENT_ID = "lens_dblXiL0qkIW5o5NG2EtWbgqJZuw"
+    CLIENT_ID = "lens_dblXiL0qkIW5o5NG2EtWbgq"
     def __init__(self):
         self.client = mqtt.Client()
         #self.username_pw_set()
@@ -15,8 +15,8 @@ class MqttConn(object):
             self.client._client_id = self.CLIENT_ID
             self.client.connect(Constant.MQTT_BROKER, Constant.MQTT_PORT, 120)
             self.client.loop_start()
-        except: 
-            print("MQTT Server connection fail")
+        except Exception as ex: 
+            print("MQTT Server connection fail:" + str(ex))
 
     def OnConnect(self,client, data, rc):
        print("Connected to MQTT Broker:" + Constant.MQTT_BROKER)
