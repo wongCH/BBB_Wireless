@@ -5,7 +5,7 @@ class Compress(object):
 
     def GZipStr(strContent):
         out = io.BytesIO()
-
+        print(strContent)
         with gzip.GzipFile(fileobj=out, mode='w') as fo:
             fo.write(strContent.encode())
 

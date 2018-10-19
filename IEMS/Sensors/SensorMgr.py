@@ -55,11 +55,10 @@ class SensorMgr(object):
                    
                     strJson = json.dumps(objJson, separators=(',',': '))
                     
-                    loggingMgr.Save(strJson)
-
+                    #loggingMgr.Save(strJson)
                     compressedJson = clsCompress.GZipStr(strJson)
                     mqttServer.Send(compressedJson)
-                    mqttServer.Send(strJson)
+                    #mqttServer.Send(strJson)
 
 
                     objJson = {"data":[]}
