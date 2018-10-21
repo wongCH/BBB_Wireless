@@ -17,6 +17,7 @@ from Sensors.SensorMgr import *
 from Helpers.Logging import *
 from Connection.MqttConn import *
 from Helpers.Compress import *
+from Helpers.WifiConn import *
 
 saveFile = Logging()
 mqttServer = MqttConn()
@@ -24,8 +25,9 @@ mqttServer = MqttConn()
 sensorMgr = SensorMgr()
 t = threading.Thread(target=sensorMgr.Main, args=(saveFile,mqttServer,Compress,))
 t.start()
- 
- 
+
+t = threading.Thread(WifiConn.EstablishConn)
+t.start();
 
 """r
 
