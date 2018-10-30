@@ -17,17 +17,20 @@ from Sensors.SensorMgr import *
 from Helpers.Logging import *
 from Connection.MqttConn import *
 from Helpers.Compress import *
-from Helpers.WifiConn import *
+from Connection.WifiConnServer import *
 
 saveFile = Logging()
 mqttServer = MqttConn()
+wifiConn = WifiConnServer()
 
 sensorMgr = SensorMgr()
 t = threading.Thread(target=sensorMgr.Main, args=(saveFile,mqttServer,Compress,))
 t.start()
 
-t = threading.Thread(WifiConn.EstablishConn)
-t.start();
+t = threading.Thread(target=wifiConn.listen_for_clients, args=())
+#t.daemon = True
+t.start()
+
 
 """r
 

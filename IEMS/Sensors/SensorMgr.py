@@ -47,18 +47,17 @@ class SensorMgr(object):
                 objchild["acc"]['z'] =imuData['acc_z']
                 
                 objJson["data"].append(objchild.copy())
- 
+                Constant.STR_JSON_DATA = json.dumps(objchild, separators=(',',': '))
+
                 #print(copy.copy(objchild)
                 if intMsgCount == Constant.MSG_COUNT :
                 
                     intMsgCount = 0
-                   
-                    strJson = json.dumps(objJson, separators=(',',': '))
-                    
-                    #loggingMgr.Save(strJson)
-                    compressedJson = clsCompress.GZipStr(strJson)
+                    strJsonData = json.dumps(objJson, separators=(',',': '))
+                    loggingMgr.Save(strJsonData)
+                    compressedJson = clsCompress.GZipStr(strJsonData)
                     mqttServer.Send(compressedJson)
-                    #mqttServer.Send(strJson)
+                     
 
 
                     objJson = {"data":[]}

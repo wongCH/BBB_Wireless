@@ -33,6 +33,7 @@
     <Compile Include="Connection\MqttConn.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Connection\WifiConnServer.py" />
     <Compile Include="Connection\__init__.py" />
     <Compile Include="Helpers\Compress.py">
       <SubType>Code</SubType>
