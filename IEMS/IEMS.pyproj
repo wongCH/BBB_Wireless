@@ -71,6 +71,9 @@
     <Compile Include="Test\PBlue.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\wifiServer.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\__init__.py" />
   </ItemGroup>
   <ItemGroup>

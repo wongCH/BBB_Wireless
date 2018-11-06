@@ -1,30 +1,115 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+xmlns:telerikGauges="clr-namespace:Telerik.XamarinForms.DataVisualization.Gauges;assembly=Telerik.XamarinForms.DataVisualization"
+xmlns:telerikCommon="clr-namespace:Telerik.XamarinForms.Common;assembly=Telerik.XamarinForms.Common"
+xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
+xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
 xmlns:telerikChart="clr-namespace:Telerik.XamarinForms.Chart;assembly=Telerik.XamarinForms.Chart"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IEMS.Mobile.Views.DashboardPage">
     <ContentPage.Content>
-        <StackLayout>
-            <telerikChart:RadCartesianChart x:Name="chart">
-                <telerikChart:RadCartesianChart.HorizontalAxis>
-                    <telerikChart:CategoricalAxis />
-                </telerikChart:RadCartesianChart.HorizontalAxis>
-                <telerikChart:RadCartesianChart.VerticalAxis>
-                    <telerikChart:NumericalAxis />
-                </telerikChart:RadCartesianChart.VerticalAxis>
-                <telerikChart:RadCartesianChart.Series>
-                    <telerikChart:BarSeries ItemsSource="{Binding BarData}">
-                        <telerikChart:BarSeries.ValueBinding>
-                            <telerikChart:PropertyNameDataPointBinding PropertyName="Value" />
-                        </telerikChart:BarSeries.ValueBinding>
-                        <telerikChart:BarSeries.CategoryBinding>
-                            <telerikChart:PropertyNameDataPointBinding PropertyName="Category" />
-                        </telerikChart:BarSeries.CategoryBinding>
-                    </telerikChart:BarSeries>
-                </telerikChart:RadCartesianChart.Series>
-            </telerikChart:RadCartesianChart>
+
+        <ScrollView>
+            <StackLayout>
+                <Entry Placeholder="IP" x:Name="txtIP" />
+                <Entry Placeholder="Port" x:Name="txtPort" />
+                <Button Text="Connect" x:Name="txtConnect"  Clicked="BtnClick_Clicked" />
+                <Button Text="Clear Text" x:Name="txtClearLabel" Clicked="txtClearLabel_Clicked" />
 
 
-        </StackLayout>
+
+                <telerikChart:RadCartesianChart x:Name="chartAcc" HeightRequest="400" >
+                    <telerikChart:RadCartesianChart.HorizontalAxis>
+
+                        <telerikChart:DateTimeContinuousAxis MajorStepUnit="Second"
+                                                     LabelFitMode="Rotate"
+                                                     PlotMode="OnTicks"
+                                                     LabelFormat="ss" />
+                    </telerikChart:RadCartesianChart.HorizontalAxis>
+                    <telerikChart:RadCartesianChart.VerticalAxis>
+                        <telerikChart:NumericalAxis />
+                    </telerikChart:RadCartesianChart.VerticalAxis>
+                    <telerikChart:RadCartesianChart.Series >
+                        <telerikChart:LineSeries 
+                            ItemsSource="{Binding SensorItems}"  
+                            ShowLabels="True"
+                            AllowSelect="True" 
+                            DisplayName="Acce_X"
+                             ValueBinding="ACC_X" 
+                             CategoryBinding="Created"  />
+                        
+                        <telerikChart:LineSeries 
+                            ItemsSource="{Binding SensorItems}"  
+                            ShowLabels="True"
+                            AllowSelect="True" 
+                            DisplayName="Acce_Y"
+                             ValueBinding="ACC_Y" 
+                             CategoryBinding="Created"  />
+
+                        <telerikChart:LineSeries 
+                            ItemsSource="{Binding SensorItems}"  
+                            ShowLabels="True"
+                            AllowSelect="True" 
+                            DisplayName="Acce_Z"
+                             ValueBinding="ACC_Z" 
+                             CategoryBinding="Created"  />
+
+                    </telerikChart:RadCartesianChart.Series >
+                </telerikChart:RadCartesianChart>
+                <telerikChart:RadLegend LegendProvider="{x:Reference Name=chartAcc}" 
+                            LegendItemFontColor="DarkGray"
+                                        HorizontalOptions="StartAndExpand"
+                            HeightRequest="200"/>
+
+
+                <telerikChart:RadCartesianChart x:Name="chartGyr" HeightRequest="200" >
+                    <telerikChart:RadCartesianChart.HorizontalAxis>
+
+                        <telerikChart:DateTimeContinuousAxis MajorStepUnit="Second"
+                                                     LabelFitMode="Rotate"
+                                                     PlotMode="OnTicks"
+                                                     LabelFormat="ss" />
+                    </telerikChart:RadCartesianChart.HorizontalAxis>
+                    <telerikChart:RadCartesianChart.VerticalAxis>
+                        <telerikChart:NumericalAxis />
+                    </telerikChart:RadCartesianChart.VerticalAxis>
+                    <telerikChart:RadCartesianChart.Series >
+                        <telerikChart:LineSeries 
+                            ItemsSource="{Binding SensorItems}"  
+                            ShowLabels="True"
+                            AllowSelect="True" 
+                            DisplayName="Gyr_X"
+                             ValueBinding="GYR_X" 
+                             CategoryBinding="Created"  />
+
+                        
+                        <telerikChart:LineSeries 
+                            ItemsSource="{Binding SensorItems}"  
+                            ShowLabels="True"
+                            AllowSelect="True" 
+                            DisplayName="Gyr_Y"
+                             ValueBinding="GYR_Y" 
+                             CategoryBinding="Created"  />
+
+                        <telerikChart:LineSeries 
+                            ItemsSource="{Binding SensorItems}"  
+                            ShowLabels="True"
+                            AllowSelect="True" 
+                            DisplayName="GYR_Z"
+                             ValueBinding="GYR_Z" 
+                             CategoryBinding="Created"  />
+
+                    </telerikChart:RadCartesianChart.Series >
+                </telerikChart:RadCartesianChart>
+                <telerikChart:RadLegend LegendProvider="{x:Reference Name=chartGyr}" 
+                            LegendItemFontColor="DarkGray"
+                             HorizontalOptions="CenterAndExpand"
+                            HeightRequest="200"/>
+            </StackLayout>
+
+
+
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
