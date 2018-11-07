@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+xmlns:telerikBusyIndicator="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
 xmlns:telerikGauges="clr-namespace:Telerik.XamarinForms.DataVisualization.Gauges;assembly=Telerik.XamarinForms.DataVisualization"
 xmlns:telerikCommon="clr-namespace:Telerik.XamarinForms.Common;assembly=Telerik.XamarinForms.Common"
 xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
@@ -11,35 +12,51 @@ xmlns:telerikChart="clr-namespace:Telerik.XamarinForms.Chart;assembly=Telerik.Xa
     <ContentPage.Content>
 
         <ScrollView>
-            <StackLayout>
-                <Entry Placeholder="IP" x:Name="txtIP" />
-                <Entry Placeholder="Port" x:Name="txtPort" />
-                <Button Text="Connect" x:Name="txtConnect"  Clicked="BtnClick_Clicked" />
-                <Button Text="Clear Text" x:Name="txtClearLabel" Clicked="txtClearLabel_Clicked" />
+         
+            <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.05*" />
+                            <RowDefinition Height="0.05*" />
+                            <RowDefinition Height="0.05*" />
+                            <RowDefinition Height="0.1*" />
+                            <RowDefinition Height="0.1*" />
+                            <RowDefinition Height="0.05*" />
+                            <RowDefinition Height="0.1*" />
+                            <RowDefinition Height="0.1*" />
+                            <RowDefinition Height="0.05*" />
+                            <RowDefinition Height="0.15*" />
+                            <RowDefinition Height="0.1*" />
+                            <RowDefinition Height="0.1*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="0.5*" />
+                        </Grid.ColumnDefinitions>
+                        <Entry Placeholder="IP" x:Name="txtIP" Text="10.211.55.5"  Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="2" />
+                        <Entry Placeholder="Port" x:Name="txtPort" Text="10000" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+                        <Button Text="Connect" x:Name="btnConnect"  Clicked="btnConnect_Clicked" Grid.Row="2" Grid.Column="0" />
+                        <Button Text="Clear Text" x:Name="btnClear" Clicked="btnClear_Clicked" Grid.Row="2" Grid.Column="1" />
+                         <telerikChart:RadCartesianChart x:Name="chartAcc" Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="2" Grid.RowSpan="2">
+                            <telerikChart:RadCartesianChart.HorizontalAxis>
 
-
-
-                <telerikChart:RadCartesianChart x:Name="chartAcc" HeightRequest="400" >
-                    <telerikChart:RadCartesianChart.HorizontalAxis>
-
-                        <telerikChart:DateTimeContinuousAxis MajorStepUnit="Second"
+                                <telerikChart:DateTimeContinuousAxis MajorStepUnit="Second"
                                                      LabelFitMode="Rotate"
                                                      PlotMode="OnTicks"
                                                      LabelFormat="ss" />
-                    </telerikChart:RadCartesianChart.HorizontalAxis>
-                    <telerikChart:RadCartesianChart.VerticalAxis>
-                        <telerikChart:NumericalAxis />
-                    </telerikChart:RadCartesianChart.VerticalAxis>
-                    <telerikChart:RadCartesianChart.Series >
-                        <telerikChart:LineSeries 
+                            </telerikChart:RadCartesianChart.HorizontalAxis>
+                            <telerikChart:RadCartesianChart.VerticalAxis>
+                                <telerikChart:NumericalAxis />
+                            </telerikChart:RadCartesianChart.VerticalAxis>
+                            <telerikChart:RadCartesianChart.Series >
+                                <telerikChart:LineSeries 
                             ItemsSource="{Binding SensorItems}"  
                             ShowLabels="True"
                             AllowSelect="True" 
                             DisplayName="Acce_X"
                              ValueBinding="ACC_X" 
                              CategoryBinding="Created"  />
-                        
-                        <telerikChart:LineSeries 
+
+                                <telerikChart:LineSeries 
                             ItemsSource="{Binding SensorItems}"  
                             ShowLabels="True"
                             AllowSelect="True" 
@@ -47,7 +64,7 @@ xmlns:telerikChart="clr-namespace:Telerik.XamarinForms.Chart;assembly=Telerik.Xa
                              ValueBinding="ACC_Y" 
                              CategoryBinding="Created"  />
 
-                        <telerikChart:LineSeries 
+                                <telerikChart:LineSeries 
                             ItemsSource="{Binding SensorItems}"  
                             ShowLabels="True"
                             AllowSelect="True" 
@@ -55,27 +72,31 @@ xmlns:telerikChart="clr-namespace:Telerik.XamarinForms.Chart;assembly=Telerik.Xa
                              ValueBinding="ACC_Z" 
                              CategoryBinding="Created"  />
 
-                    </telerikChart:RadCartesianChart.Series >
-                </telerikChart:RadCartesianChart>
-                <telerikChart:RadLegend LegendProvider="{x:Reference Name=chartAcc}" 
-                            LegendItemFontColor="DarkGray"
-                                        HorizontalOptions="StartAndExpand"
-                            HeightRequest="200"/>
+                            </telerikChart:RadCartesianChart.Series >
+                        </telerikChart:RadCartesianChart>
+                        <telerikChart:RadLegend LegendProvider="{x:Reference Name=chartAcc}" 
+                                            Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                                            LegendItemFontColor="DarkGray"
+                                            HorizontalOptions="Start" 
+                                            Orientation="Horizontal"/>
 
+                        <telerikChart:RadCartesianChart x:Name="chartGyr" 
+                                                    Grid.Row="6" 
+                                                    Grid.Column="0"
+                                                    Grid.RowSpan="2"
+                                                    Grid.ColumnSpan="2">
+                            <telerikChart:RadCartesianChart.HorizontalAxis>
 
-                <telerikChart:RadCartesianChart x:Name="chartGyr" HeightRequest="200" >
-                    <telerikChart:RadCartesianChart.HorizontalAxis>
-
-                        <telerikChart:DateTimeContinuousAxis MajorStepUnit="Second"
+                                <telerikChart:DateTimeContinuousAxis MajorStepUnit="Second"
                                                      LabelFitMode="Rotate"
                                                      PlotMode="OnTicks"
                                                      LabelFormat="ss" />
-                    </telerikChart:RadCartesianChart.HorizontalAxis>
-                    <telerikChart:RadCartesianChart.VerticalAxis>
-                        <telerikChart:NumericalAxis />
-                    </telerikChart:RadCartesianChart.VerticalAxis>
-                    <telerikChart:RadCartesianChart.Series >
-                        <telerikChart:LineSeries 
+                            </telerikChart:RadCartesianChart.HorizontalAxis>
+                            <telerikChart:RadCartesianChart.VerticalAxis>
+                                <telerikChart:NumericalAxis />
+                            </telerikChart:RadCartesianChart.VerticalAxis>
+                            <telerikChart:RadCartesianChart.Series >
+                                <telerikChart:LineSeries 
                             ItemsSource="{Binding SensorItems}"  
                             ShowLabels="True"
                             AllowSelect="True" 
@@ -83,8 +104,8 @@ xmlns:telerikChart="clr-namespace:Telerik.XamarinForms.Chart;assembly=Telerik.Xa
                              ValueBinding="GYR_X" 
                              CategoryBinding="Created"  />
 
-                        
-                        <telerikChart:LineSeries 
+
+                                <telerikChart:LineSeries 
                             ItemsSource="{Binding SensorItems}"  
                             ShowLabels="True"
                             AllowSelect="True" 
@@ -92,7 +113,7 @@ xmlns:telerikChart="clr-namespace:Telerik.XamarinForms.Chart;assembly=Telerik.Xa
                              ValueBinding="GYR_Y" 
                              CategoryBinding="Created"  />
 
-                        <telerikChart:LineSeries 
+                                <telerikChart:LineSeries 
                             ItemsSource="{Binding SensorItems}"  
                             ShowLabels="True"
                             AllowSelect="True" 
@@ -100,16 +121,56 @@ xmlns:telerikChart="clr-namespace:Telerik.XamarinForms.Chart;assembly=Telerik.Xa
                              ValueBinding="GYR_Z" 
                              CategoryBinding="Created"  />
 
-                    </telerikChart:RadCartesianChart.Series >
-                </telerikChart:RadCartesianChart>
-                <telerikChart:RadLegend LegendProvider="{x:Reference Name=chartGyr}" 
-                            LegendItemFontColor="DarkGray"
-                             HorizontalOptions="CenterAndExpand"
-                            HeightRequest="200"/>
-            </StackLayout>
+                            </telerikChart:RadCartesianChart.Series >
+                        </telerikChart:RadCartesianChart>
+                        <telerikChart:RadLegend 
+                        Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
+                            LegendProvider="{x:Reference Name=chartGyr}" 
+                            LegendItemFontColor="DarkGray" Orientation="Horizontal"
+                             HorizontalOptions="StartAndExpand"
+                            />
+
+                        <Grid  Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2">
+                            <telerikGauges:RadRadialGauge HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <telerikGauges:RadRadialGauge.Axis>
+                                    <telerikGauges:GaugeLinearAxis LabelInterval="2"
+                                                           Maximum="200"
+                                                           Minimum="0"
+                                                           Step="20"
+                                                           StrokeThickness="0"
+                                                           TickLength="3"
+                                                           TickThickness="2" />
+                                </telerikGauges:RadRadialGauge.Axis>
+                                <telerikGauges:RadRadialGauge.Ranges>
+                                    <telerikGauges:GaugeRangesDefinition>
+                                        <telerikGauges:GaugeRange Color="Gray"
+                                                          From="0"
+                                                          To="200" />
+                                    </telerikGauges:GaugeRangesDefinition>
+                                </telerikGauges:RadRadialGauge.Ranges>
+                                <telerikGauges:RadRadialGauge.Indicators>
+                                    <telerikGauges:GaugeBarIndicator Fill="Aqua"  x:Name="gauIndicatorTemperature"   />
+                                </telerikGauges:RadRadialGauge.Indicators>
+                            </telerikGauges:RadRadialGauge>
+                            <Label FontSize="10" x:Name="lblTemp"
+                           HorizontalTextAlignment="Center"
+                           Text="120"
+                           TextColor="Aqua"
+                           VerticalTextAlignment="Center" />
+                        </Grid>
 
 
 
+     
+                    </Grid>
+
+            
+
+         
+
+
+
+          
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

@@ -44,8 +44,8 @@ namespace IEMS.Mobile.Views
                 // Establish the remote endpoint for the socket.  
                 // This example uses port 11000 on the local computer.  
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-                IPAddress ipAddress = IPAddress.Parse("10.211.55.5"); //ipHostInfo.AddressList[0];
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 10000);
+                IPAddress ipAddress = IPAddress.Parse(txtIP.Text); //ipHostInfo.AddressList[0];
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, int.Parse(txtPort.Text));
 
                 // Create a TCP/IP  socket.  
                 Socket sender = new Socket(ipAddress.AddressFamily,
@@ -73,7 +73,8 @@ namespace IEMS.Mobile.Views
                                 Debug.WriteLine(item.Acc.X);
 
                                 SensorItems.Add(item);
-                               
+                                lblTemp.Text = item.Tem.ToString();
+                                gauIndicatorTemperature.Value = item.Tem;
                                 if (SensorItems.Count > 5)
                                     SensorItems.RemoveAt(0);
                             }
@@ -115,33 +116,34 @@ namespace IEMS.Mobile.Views
 
 
         bool isConnect = false;
-        private void BtnClick_Clicked(object sender, EventArgs e)
+        private void btnConnect_Clicked(object sender, EventArgs e)
         {
+            if (txtIP.Text.Length ==0 || txtPort.Text.Length ==0)
+            {
+                return;
+            }
             Debug.WriteLine("Entering task");
             isConnect = !isConnect;
             if (isConnect) {
+                btnConnect.Text = "Disconnect";
                 Task.Run(async () =>
                 {
                     Debug.WriteLine("In task");
-                    
+
                     StartClient();
                 });
-                    
-                
-
+            }
+            else {
+                btnConnect.Text = "Connect";
             }
           
         }
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-           
-        }
+    
         public ObservableCollection<SensorItem> SensorItems {
             get;set;
         }
 
-        private void txtClearLabel_Clicked(object sender, EventArgs e)
+        private void btnClear_Clicked(object sender, EventArgs e)
         {
             SensorItems.Clear();
         }
