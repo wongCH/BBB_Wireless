@@ -64,14 +64,15 @@ class BMI160(object):
     def __init__(self):
         #step 1: set cmd for both accel and gyro
         self.Device = I2C.Device(address=0x69,busnum=2) #i2c address and busNum in BB
-        #self.Device.writeList(0x7E,bytearray(b'\x11\x15\x19')) #\x19 set gyro to normal 
+        #self.Device.writeList(0x7E,bytearray(b'\x11\x15\x18')) 
         self.Device.write8(0x7E,0x11)#write to gyro
         self.Device.write8(0x7E,0x15) #write to accel
+        self.Device.write8(0x7E,0x18) #write to accel
         time.sleep(0.1) #sensor need time of 100ms to set
         #print("PMU status: {0}".format(self.Device.readList(0x03,3)))
 
     def getSensors(self):
-         
+        
         gyro_x = self.Device.readU8(0x0C)  #read byte data function like c=  i2c_read_byte (0x0C) & 0xFF);
         gyro_x = gyro_x | (self.Device.readU8(0x0D) <<8)
        
@@ -130,4 +131,8 @@ class BMI160(object):
         #print (self.Device.readU8(0x4D))
         #print (self.Device.readU8(0x4E))
         #print (self.Device.readU8(0x4F))
-       
+if __name__ == "__main__":
+    
+    main = BMI160()
+    # start listening for clients
+    main.getSensors()       

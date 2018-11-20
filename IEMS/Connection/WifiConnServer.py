@@ -6,14 +6,14 @@ from Helpers.Constant import *
 class WifiConnServer:
     def __init__(self):
         self.host = "0.0.0.0"
-        self.port = 10000
+        self.port = 9999
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.server.bind((self.host, self.port))
         self.server.listen(1)
 
     def listen_for_clients(self):
-        print('Listening...')
+        print('Listening on'+ self.host +' at port' + self.port)
         while True:
             client, addr = self.server.accept()
             print(
@@ -34,6 +34,7 @@ class WifiConnServer:
 
             except socket.error:
                 client_socket.close()
+                print('Client disconnectd.Close client connection.')
                 return False
         client_socket.close()
 

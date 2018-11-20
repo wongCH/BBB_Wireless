@@ -54,7 +54,7 @@ def on_message(client, userdata, msg):
         print("Error" + ex.message)
 	 
  
-client = mqtt.Client("imes-sevr-01")
+client = mqtt.Client("iems-sevr-01")
 client.on_connect = on_connect
 client.on_message = on_message
 client.connect(mqttServer,mqttPort, 60)

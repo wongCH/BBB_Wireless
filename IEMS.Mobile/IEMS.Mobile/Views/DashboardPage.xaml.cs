@@ -47,8 +47,8 @@ namespace IEMS.Mobile.Views
                 IPAddress ipAddress = IPAddress.Parse(txtIP.Text); //ipHostInfo.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, int.Parse(txtPort.Text));
 
-                // Create a TCP/IP  socket.  
-                Socket sender = new Socket(ipAddress.AddressFamily,
+                // Create a TCP/IP  socket  
+                Socket sender = new Socket(AddressFamily.InterNetwork,//stop here   //.InterNetwork, //code change here .Address
                     SocketType.Stream, ProtocolType.Tcp);
 
                 // Connect the socket to the remote endpoint. Catch any errors.  
@@ -79,7 +79,7 @@ namespace IEMS.Mobile.Views
                                     SensorItems.RemoveAt(0);
                             }
                             catch (Exception e) {
-                                Debug.WriteLine(e.ToString());
+                                Alert(e.ToString());
                             }
                         });
 
@@ -96,21 +96,23 @@ namespace IEMS.Mobile.Views
                 }
                 catch (ArgumentNullException ane)
                 {
-                    Debug.WriteLine("ArgumentNullException : {0}", ane.ToString());
+
+
+                    Alert(string.Format("ArgumentNullException : {0}", ane.ToString()));
                 }
                 catch (SocketException se)
                 {
-                    Debug.WriteLine("SocketException : {0}", se.ToString());
+                    Alert(string.Format("SocketException : {0}", se.ToString()));
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine("Unexpected exception : {0}", e.ToString());
+                    Alert(string.Format("Unexpected exception : {0}", e.ToString()));
                 }
 
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                Alert(string.Format(e.ToString()));
             }
         }
 
@@ -118,6 +120,7 @@ namespace IEMS.Mobile.Views
         bool isConnect = false;
         private void btnConnect_Clicked(object sender, EventArgs e)
         {
+          
             if (txtIP.Text.Length ==0 || txtPort.Text.Length ==0)
             {
                 return;
@@ -148,6 +151,11 @@ namespace IEMS.Mobile.Views
             SensorItems.Clear();
         }
 
+        private void Alert(string alertMessage) {
+            Device.BeginInvokeOnMainThread(() => {
+                DisplayAlert("Error", alertMessage, "OK");
+            });
+        }
        
     }
 }
